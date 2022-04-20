@@ -1,88 +1,206 @@
-// declare the questions array as variable questions
+const generateBtn = document.querySelector("#generate");
+
+// declare the variable questions as an array of objects
 const questions = [
   {
     category: "animals",
-    items: [],
+    items: [
+      "cat",
+      "dog",
+      "bear",
+      "giraffe",
+      "turtle",
+      "squirrel",
+      "lion",
+      "zebra",
+      "snake",
+      "spider",
+      "bee",
+      "butterfly",
+      "fox",
+      "elephant",
+      "horse",
+      "camel",
+      "owl",
+      "eagle",
+      "shark",
+      "dolphin",
+      "penguin",
+      "ant",
+      "crab",
+      "octopus",
+    ],
     text: "Would you like to add the category of Animals?",
   },
   {
-    category: "vehicles",
-    items: [],
-    text: "Would you like to add the category of Vehicles?",
+    category: "sports",
+    items: [
+      "basketball",
+      "football",
+      "handball",
+      "golf",
+      "tennis",
+      "snooker",
+      "swimming",
+      "yoga",
+      "cycling",
+      "bowling",
+      "weight lifting",
+      "badminton",
+      "squash",
+      "table tennis",
+      "baseball",
+      "cricket",
+      "boxing",
+      "jiu-jitsu",
+      "acrobatic gymnastics",
+      "rythmic gymnastics",
+      "hockey",
+      "curling",
+    ],
+    text: "Would you like to add the category of Sports?",
   },
   {
     category: "food",
-    items: [],
+    items: [
+      "strawberry",
+      "banana",
+      "rice",
+      "lettuce",
+      "tomatoe",
+      "bread",
+      "cheese",
+      "hummus",
+      "pizza",
+      "cookies",
+      "yorkshire pudding",
+      "pasta",
+      "hamburger",
+      "hot dog",
+      "lasagna",
+      "chocolate",
+      "egg",
+      "milk",
+      "yogurt",
+      "brioche",
+    ],
     text: "Would you like to add the category of Food?",
   },
   {
     category: "movies",
-    items: [],
+    items: [
+      "Avatar",
+      "Godzilla",
+      "Alien",
+      "Matrix",
+      "Inception",
+      "Bad Boys",
+      "Twilight",
+      "Fight Club",
+      "Iron Man",
+      "Pretty Woman",
+      "La la land",
+      "Titanic",
+      "Mission : impossible",
+      "The Notebook",
+      "American Pie",
+      "Grown Ups",
+      "Superman",
+      "The Avengers",
+      "Reservoir Dogs",
+      "Scream",
+      "E.T.",
+      "Jaws",
+      "Rocky",
+    ],
     text: "Would you like to add the category of Movies?",
   },
 ];
 
-// present the user with prompt
-// store prompt value in variable userInput
-const userInput = prompt("How many cards would you like?");
+//get the user input for number of cars and checks if is number+within range
+const getCardNumber = () => {
+  //declare variable to receive user input - const -> not modified further down
+  const userInput = prompt(
+    "How many cards would you like in your set? \n\nPlease enter a number between 6 and 20.\n",
+    ""
+  );
+  // check if userInput is a number
+  const cardNumber = parseInt(userInput);
 
-// validate user input
-const isValidInput = (userInput) => {
-  // return boolean
-  return true;
+  if (!isNaN(cardNumber) && cardNumber >= 6 && cardNumber <= 20) {
+    //if type and range are both true, the number is returned for storage in variable
+    return cardNumber;
+  }
+  //if type or range are not true, it sends an alert box with message
+  else {
+    alert(
+      "You must enter a number between 6 and 20. \n\nClick OK to start again."
+    );
+    window.location.reload(true);
+    document.getElementById("cards").reset();
+  }
 };
 
+// get the user's choice for each category and store chosen ones as categories
 const getCategories = (questions) => {
-  // return categories object
-  return {
-    animals: [],
-    food: [],
-  };
+  const categories = [];
+
+  for (let i = 0; i < questions.length; i += 1) {
+    const getUserOption = confirm(questions[i].text);
+
+    if (getUserOption) {
+      //if true, object is created then pished in array of objects
+      const choice = {};
+      choice.category = questions[i].category;
+      choice.items = questions[i].items;
+      categories.push(choice);
+
+      console.log(categories);
+    }
+  }
+
+  //check the user;s choice matches the acceptance criteria => at least 2 categories selected
+  if (categories.length < 2) {
+    alert("Invalid selection. \n\nClick OK to start again.");
+    window.location.reload(true);
+    document.getElementById("cards").reset();
+  } else {
+    return categories;
+  }
 };
 
-const isValidCategories = (categories) => {
-  // return boolean
-  return false;
-};
+//function creates the cards from the categories chosen by user - not done
+const createCardSet = (cardNumber, categories) => {
+  for(let i = 0; i < cardNumber; i+=1){
 
-const generateRandomCards = () => {
+  }
   // return an array of cards
-  return [];
+  return ["CARDS"];
 };
 
-const displayCards = () => {
-  // console log all cards
-  console.log("DONE");
-};
+// main function to generate the set of cards
+const generateCards = () => {
 
-// this is true or false
-const isValidUserInput = isValidInput(userInput);
+  //get the car set length from the user
+  const cardNumber = getCardNumber();
 
-if (isValidUserInput) {
-  // if user input is valid
-  // convert the userInput to number and store in variable numberOfCards
-  const numberOfCards = 10;
-
-  // get categories for questions and store as categories
+  //get the category options from the user
   const categories = getCategories(questions);
 
-  // validate categories and store in variable is isValidSelections
-  const isValidSelections = isValidCategories(categories);
+  //create the card set
+  const cardSet = createCardSet(cardNumber, categories);
 
-  if (isValidSelections) {
-    // if selections is valid
-    // pass categories and numberOfCards to generateRandomCards
-    const cards = generateRandomCards(categories, numberOfCards);
+  //return the card set
+  return cardSet;
+};
 
-    // end of happy path
-    displayCards(cards);
-  } else {
-    // if selections is invalid
-    // alert
-    alert("Invalid Selections");
-  }
-} else {
-  // if user input is not valid
-  // alert message
-  alert("Invalid User Input");
-}
+// show cards in the #cards input
+const showCards = () => {
+  const cardSet = generateCards();
+  const cardSetText = document.querySelector("#cards");
+
+  cardSetText.value = cardSet;
+};
+
+// Add event listener to generate button
+generateBtn.addEventListener("click", showCards);
