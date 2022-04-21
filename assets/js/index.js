@@ -182,6 +182,7 @@ const createCardSet = (cardNumber, categories) => {
     const randomItemIndex = getRandomNumber(randomObject.items.length);
     const randomItem = randomObject.items[randomItemIndex];
     console.log(randomObject, randomItem);
+
     //check if already exist in array
 
     //if not already in array, push in
@@ -189,9 +190,7 @@ const createCardSet = (cardNumber, categories) => {
   }
   console.log(newArray);
 
-  // check if item is in new array
-  // if not, store item away
-
+  return newArray;
   // return an array of cards
 };
 
