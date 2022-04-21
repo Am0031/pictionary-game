@@ -142,22 +142,19 @@ const getCardNumber = () => {
 };
 
 // get the user's choice for each category and store chosen ones as categories
-const getCategories = (questions) => {
+const getCategories = () => {
   const categories = [];
 
-  for (let i = 0; i < questions.length; i += 1) {
-    const getUserOption = confirm(questions[i].text);
-
-    if (getUserOption) {
-      //if true, object is created then pished in array of objects
-      const choice = {};
-      choice.category = questions[i].category;
-      choice.items = questions[i].items;
+  const getUserChoices = (element, index) => {
+    const getUserInput = confirm(element.text);
+    if (getUserInput) {
+      const choice = { category: element.category, items: element.items };
       categories.push(choice);
-
-      console.log(categories);
     }
-  }
+  };
+
+  questions.forEach(getUserChoices);
+  console.log(categories);
 
   //check the user;s choice matches the acceptance criteria => at least 2 categories selected
   if (categories.length < 2) {
@@ -168,24 +165,43 @@ const getCategories = (questions) => {
     return categories;
   }
 };
+const getRandomNumber = (maxValue) => {
+  return Math.floor(Math.random() * maxValue);
+};
 
 //function creates the cards from the categories chosen by user - not done
 const createCardSet = (cardNumber, categories) => {
-  for(let i = 0; i < cardNumber; i+=1){
+  const newArray = [];
+  //look into securing at least 1 from each category
+  while (cardNumber - newArray.length !== 0) {
+    // gets a random number to pick an object
+    const randomObjectIndex = getRandomNumber(categories.length);
+    const randomObject = categories[randomObjectIndex];
+    // gets a random number to pick item in array
 
+    const randomItemIndex = getRandomNumber(randomObject.items.length);
+    const randomItem = randomObject.items[randomItemIndex];
+    console.log(randomObject, randomItem);
+    //check if already exist in array
+
+    //if not already in array, push in
+    newArray.push(randomItem);
   }
+  console.log(newArray);
+
+  // check if item is in new array
+  // if not, store item away
+
   // return an array of cards
-  return ["CARDS"];
 };
 
 // main function to generate the set of cards
 const generateCards = () => {
-
   //get the car set length from the user
   const cardNumber = getCardNumber();
 
   //get the category options from the user
-  const categories = getCategories(questions);
+  const categories = getCategories();
 
   //create the card set
   const cardSet = createCardSet(cardNumber, categories);
